@@ -1,0 +1,10 @@
+CREATE TABLE Book(
+book_id SERIAL PRIMARY KEY NOT NULL,
+title VARCHAR(240) NOT NULL,
+author VARCHAR(120) NOT NULL,
+publisher VARCHAR(120) NOT NULL,
+series VARCHAR(240),
+release_date Date,
+ISBN VARCHAR(20),
+category VARCHAR(240)
+)
