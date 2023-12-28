@@ -20,9 +20,13 @@ public class Book {
 
     private String releaseDate;
 
+    private String series;
+
     private String isbn;
 
     private String category;
+
+    private String coverUrl;
 
     public Long getBookID() {
         return bookID;
@@ -64,6 +68,14 @@ public class Book {
         this.releaseDate = newReleaseDate;
     }
 
+    public String getSeries() {
+        return series;
+    }
+
+    public void setSeries(String newSeries) {
+        this.series = newSeries;
+    }
+
     public String getISBN() {
         return isbn;
     }
@@ -78,6 +90,14 @@ public class Book {
 
     public void setCategory(String newCategory) {
         this.category = newCategory;
+    }
+
+    public String getCoverUrl() {
+        return coverUrl;
+    }
+
+    public void setCoverUrl(String newCoverUrl) {
+        this.coverUrl = newCoverUrl;
     }
 
 }
