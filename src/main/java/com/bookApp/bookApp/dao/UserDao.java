@@ -14,4 +14,8 @@ public interface UserDao {
     List<Book> findUserBooks(Long userID);
 
     void update(Long userID, User User);
+
+    void addBookToLibrary(Long userID, Long bookID);
+
+    void removeBookFromLibrary(Long userID, Long bookID);
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,11 +29,21 @@ public class BookDaoImplIntegrationTests {
         book.setTitle("Kuba w Dżungli!");
 		book.setAuthor("Kuba Donosik");
 		book.setPublisher("Wydawnictwo Mag");
+        book.setISBN("12344534573894");
 
 //        underTest.create(book);
-        Optional<Book> result = underTest.findOne("Kuba");
+
+        Optional<Book> result = underTest.findOne("12344534573894");
         assertThat(result).isPresent();
-//        assertThat(result.get()).isEqualTo(book);
+        Book bookFromDB = result.get();
+        bookFromDB.setBookID(null);
+        assertThat(bookFromDB).isEqualTo(book);
+    }
+
+    @Test
+    public void testThatCanWeFindAnyBookWithTitleSimilarToProvided() {
+        List<Book> result = underTest.findAny("Kuba");
+//        System.out.println(result);
     }
 
 }

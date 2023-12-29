@@ -24,21 +24,65 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void create(Book book) {
+        try{
+            jdbcTemplate.update("INSERT INTO book (title, author, publisher, isbn) VALUES (?, ?, ?, ?)",
+                    book.getTitle(),
+                    book.getAuthor(),
+                    book.getPublisher(),
+                    book.getISBN());
 
-
-        jdbcTemplate.update("INSERT INTO book (title, author, publisher, isbn) VALUES (?, ?, ?, ?)",
-                            book.getTitle(),
-                            book.getAuthor(),
-                            book.getPublisher(),
-                            book.getISBN()
-        );
+            logger.info("Successfully added book with isbn = " +
+                    book.getISBN() + " and title = " + book.getTitle() +
+                    " to database");
+        }catch (Exception er){
+            logger.warn("Failed to add book with isbn = " +
+                    book.getISBN() + " and title = " + book.getTitle() +
+                    " to database");
+            logger.error(er);
+        }
     }
 
     @Override
-    public Optional<Book> findOne(String bookTitle) {
-        List<Book> results = jdbcTemplate.query("SELECT * FROM book WHERE title like '%" + bookTitle + "%' LIMIT 1",
-                            new BookRowMapper());
-        return results.stream().findFirst();
+    public Optional<Book> findOne(String isbn) {
+        try{
+            List<Book> results = jdbcTemplate.query("SELECT * FROM book WHERE isbn = '" + isbn + "' LIMIT 1",
+                    new BookRowMapper());
+            if(results.stream().findFirst().isEmpty()){
+                logger.info("There is no book in database with isbn = " + isbn);
+                return Optional.empty();
+            }else {
+                logger.info("Successfully retrieved book with isbn = " + isbn + " from database");
+                return results.stream().findFirst();
+            }
+        }catch (Exception er){
+            logger.warn("Failed to retrieve book with isbn = " + isbn + " from database");
+            logger.error(er);
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Book> findAny(String bookTitle) {
+
+        try{
+            List<Book> results = jdbcTemplate.query("SELECT * FROM book WHERE title like '%" + bookTitle + "%'",
+                    new BookRowMapper());
+
+            if(results.isEmpty()){
+                logger.info("There is no book in database with title similar to " + bookTitle);
+                return null;
+            }else{
+                logger.info("Successfully retrieved books with title similar to " + bookTitle + " from database");
+                for (Book booksFromDb : results){
+                    System.out.println(booksFromDb + "\n");
+                }
+                return results;
+            }
+        }catch(Exception er) {
+            logger.warn("Failed to retrieved books with title similar to " + bookTitle);
+            logger.error(er);
+            return null;
+        }
     }
 
     public static class BookRowMapper implements RowMapper<Book>{
@@ -48,7 +92,8 @@ public class BookDaoImpl implements BookDao {
             Book booktmp = new Book();
             booktmp.setBookID(rs.getLong("book_id"));
             booktmp.setTitle(rs.getString("title"));
-            booktmp.setAuthor(rs.getString("publisher"));
+            booktmp.setAuthor(rs.getString("author"));
+            booktmp.setPublisher(rs.getString("publisher"));
             booktmp.setSeries(rs.getString("series"));
             booktmp.setReleaseDate(rs.getString("release_date"));
             booktmp.setISBN(rs.getString("isbn"));

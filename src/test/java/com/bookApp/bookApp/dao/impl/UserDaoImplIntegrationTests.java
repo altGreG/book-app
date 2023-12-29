@@ -27,14 +27,20 @@ public class UserDaoImplIntegrationTests {
     public void testThatWeCanGetUsersBooks() {
 
         User user = new User();
-        Optional<User> result = underTest.findOne("example");
-        System.out.println(result);
-        user = result.get();
-        System.out.println(user);
-        user.setPassword("NoweSuperHaslo1@#$");
-        user.setEmail("newexample@xample.net");
+//        Optional<User> result = underTest.findOne("example");
+//        System.out.println(result);
+//        user = result.get();
+//        System.out.println(user);
+//        user.setPassword("NoweSuperHaslo1@#$");
+//        user.setEmail("newexample@xample.net");
+//        underTest.update(user.getID(), user);
 
-        underTest.update(user.getID(), user);
+//        user.setUsername("altGreG");
+//        user.setPassword("supaSafe");
+//        user.setEmail("company@company.com");
+//
+//        underTest.create(user);
+
 
 
 //        List<Book> result2 = underTest.findUserBooks(1L);

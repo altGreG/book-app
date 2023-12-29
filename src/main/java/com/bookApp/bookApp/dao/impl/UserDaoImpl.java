@@ -27,11 +27,19 @@ public class UserDaoImpl implements UserDao {
     @Override
     public void create(User user) {
 
-        jdbcTemplate.update("INSER INTO appuser (username, email, password) VALUES (?, ?, ?)",
-                            user.getUsername(),
-                            user.getEmail(),
-                            user.getPassword()
-        );
+        try{
+            jdbcTemplate.update("INSERT INTO appuser (username, email, password) VALUES (?, ?, ?)",
+                    user.getUsername(),
+                    user.getEmail(),
+                    user.getPassword());
+            logger.info("Added user with:" +
+                    "username = " + user.getUsername() +
+                    ", email = " + user.getEmail() +
+                    ", password = " + "WE PROTECT USER'S SUPER SAFE PASSWORD'S ;)");
+        }catch(Exception er){
+            logger.warn("Failed to add user into database!");
+            logger.error(er);
+        }
     }
 
     @Override
@@ -66,6 +74,8 @@ public class UserDaoImpl implements UserDao {
         return results;
     }
 
+
+
     @Override
     public void update(Long userID, User user) {
         try {
@@ -75,11 +85,32 @@ public class UserDaoImpl implements UserDao {
                     "password = '" + user.getPassword() + "' WHERE id = " + userID);
             logger.info("User info with id: " + userID + " has been updated in database");
         }catch(Exception er){
-            logger.warn(er);
+            logger.warn("Failed to update user data");
+            logger.error(er);
         }
+    }
 
+    @Override
+    public void addBookToLibrary(Long userID, Long bookID) {
+        try{
+            jdbcTemplate.update("INSERT INTO userbook (user_id, book_id) VALUES (?, ?)",
+                    userID, bookID);
+            logger.info("Book with id = " + bookID + " has been added to user library");
+        }catch (Exception er){
+            logger.warn("Failed to add book into user's library");
+            logger.error(er);
+        }
+    }
 
-
-
+    @Override
+    public void removeBookFromLibrary(Long userID, Long bookID) {
+        try{
+            jdbcTemplate.update("DELETE FROM userbook WHERE user_id = ? and book_id = ?",
+                    userID, bookID);
+            logger.info("Book with id = " + bookID + " has been deleted from user library");
+        }catch (Exception er){
+            logger.warn("Failed to remove book from user's library");
+            logger.error(er);
+        }
     }
 }
