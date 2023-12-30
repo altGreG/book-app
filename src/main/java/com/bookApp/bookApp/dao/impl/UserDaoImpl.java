@@ -65,13 +65,27 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<Book> findUserBooks(Long userID) {
-        List<Book> results = jdbcTemplate.query("Select b.book_id,  b.title, b.author, b.publisher," +
-                        " b.series, b.release_date, b.isbn, b.category, b.cover_url  from appUser as ap" +
-                        " INNER JOIN userBook as ub ON ap.id = ub.user_id" +
-                        " INNER JOIN book as b ON ub.book_id = b.book_id" +
-                        " WHERE ap.id = " + userID,
-                new BookDaoImpl.BookRowMapper());
-        return results;
+        try{
+            List<Book> results = jdbcTemplate.query("Select b.book_id,  b.title, b.author, b.publisher," +
+                            " b.series, b.release_date, b.isbn, b.category, b.cover_url  from appUser as ap" +
+                            " INNER JOIN userBook as ub ON ap.id = ub.user_id" +
+                            " INNER JOIN book as b ON ub.book_id = b.book_id" +
+                            " WHERE ap.id = " + userID,
+                    new BookDaoImpl.BookRowMapper());
+            if(!results.isEmpty()){
+                logger.info("Successfully retrieved users books");
+                return results;
+            }else {
+                logger.info("Users don't have any books in his library " +
+                        "or there is no user with id = " + userID);
+                return null;
+            }
+        }
+        catch (Exception er){
+            logger.warn("Failed to access users library");
+            logger.error(er);
+            return null;
+        }
     }
 
 

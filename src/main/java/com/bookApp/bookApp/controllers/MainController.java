@@ -1,4 +1,4 @@
-package com.bookApp.bookApp.controller;
+package com.bookApp.bookApp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
