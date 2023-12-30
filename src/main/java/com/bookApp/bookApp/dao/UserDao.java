@@ -18,4 +18,6 @@ public interface UserDao {
     void addBookToLibrary(Long userID, Long bookID);
 
     void removeBookFromLibrary(Long userID, Long bookID);
+
+    boolean checkCredentials(String username, String password);
 }

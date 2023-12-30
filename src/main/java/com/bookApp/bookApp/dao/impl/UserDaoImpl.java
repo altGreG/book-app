@@ -127,4 +127,19 @@ public class UserDaoImpl implements UserDao {
             logger.error(er);
         }
     }
+
+    @Override
+    public boolean checkCredentials(String username, String password) {     // TODO: Do beeter check and logging
+
+        List<User> result = jdbcTemplate.query("Select * from appuser WHERE" +
+                " username = '"+username+
+                "' and password = '" + password + "'"
+                , new UserRowMapper());
+
+        if(result.isEmpty()){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }

@@ -3,15 +3,19 @@ package com.bookApp.bookApp.controllers;
 import com.bookApp.bookApp.Domain.Book;
 import com.bookApp.bookApp.Domain.User;
 import com.bookApp.bookApp.services.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Controller
 public class UserController {
 
     protected static final Logger logger = LogManager.getLogger();
@@ -21,6 +25,8 @@ public class UserController {
     public UserController(UserService userService){
         this.userService = userService;
     }
+
+//    REST API service
 
     @PostMapping(path = "/api/users")
     public ResponseEntity<User> createUser(@RequestBody User user){
@@ -46,4 +52,30 @@ public class UserController {
         return new ResponseEntity<>(userInfo, HttpStatus.NOT_FOUND);
     }
 
+
+//    WebService
+
+    @GetMapping(path = "/api/users/login/{username}/{password}")     // TODO: Change path, refactor function
+    public String loginUserToApp(@PathVariable("username") String username,
+                            @PathVariable("password") String password,
+                            HttpServletResponse response){
+
+        boolean goodCredentials = userService.checkCredentials(username, password);
+
+        if(goodCredentials){
+
+            User userData = userService.showUserInfo(username);
+
+            Cookie usernameCookie = new Cookie("username", username);
+            response.addCookie(usernameCookie);
+            Cookie emailCookie = new Cookie("email", userData.getEmail());
+            response.addCookie(emailCookie);
+            Cookie idCookie = new Cookie("id", userData.getID().toString());
+            response.addCookie(idCookie);
+
+            return "subpage";
+        }else{
+            return "login";
+        }
+    }
 }

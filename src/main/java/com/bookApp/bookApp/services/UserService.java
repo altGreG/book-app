@@ -13,4 +13,6 @@ public interface UserService {
 
     User showUserInfo(String username);
 
+    boolean checkCredentials(String username, String password);
+
 }

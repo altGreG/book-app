@@ -55,4 +55,12 @@ public class UserServiceImpl implements UserService {
             return new User();  // logging implemented in UserDaoImpl
         }
     }
+
+//    WebService
+
+
+    @Override
+    public boolean checkCredentials(String username, String password) {
+        return userDB.checkCredentials(username, password);
+    }
 }
