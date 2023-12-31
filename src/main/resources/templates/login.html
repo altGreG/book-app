@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <title>BookApp - Login</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +9,8 @@
    
     <link rel="stylesheet" href="../static/css/style.css" type="text/css">
     <link rel="stylesheet" href="../static/css/login-style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/login-style.css" type="text/css">
 </head>
 <body>
     <div class="container flexbox-center">
@@ -22,8 +24,8 @@
             </div>
             <div class="formInputs flexbox-center">
 
-                <input type="email" name="username" id="username" required maxlength="59" placeholder="Email">
-
+                <input type="text" name="username" id="username" required maxlength="59" placeholder="Username">
+                
                 <input type="password" name="password" id="password" required maxlength="29" placeholder="Password">
 
                 <input type="button" value="Login">
