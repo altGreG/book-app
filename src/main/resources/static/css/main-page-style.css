@@ -1,0 +1,112 @@
+
+.container{
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color5);
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.header{
+    width: 100%;
+    height: 90px;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: var(--color1);
+}
+
+.header .logo{
+    width: 100%;
+    max-width: 50vw;
+    min-width: 30vw;
+    justify-content: flex-start;
+}
+
+.header .logo img{
+    width: 50px;
+    margin-right: 30px;
+}
+
+.header .logo h1 a{
+    color: var(--color5);
+    text-decoration: none;
+}
+
+.header form{
+    width: 100%;
+    max-width: 50vw;
+    min-width: 30vw;
+    justify-content: flex-end;
+}
+
+.header form input[type=search]{
+    width: 100%;
+    max-width: 40vw;
+    border-bottom: 2px solid var(--color5);
+    color: var(--color5);
+    font-size: 18px;
+    padding: 10px;
+}
+
+button{
+    color: var(--color5);
+    height: 45px;
+    width: 100px;
+    font-size: 18px;
+    border: 2px solid var(--color5);
+}
+
+.mainContent{
+    width: 100%;
+    height: calc(100vh - 90px);
+
+}
+
+.mainContentLeft{
+    width: 250px;
+    height: 100%;
+}
+
+.sidenav {
+    width: 100%;
+    height: calc(100% - 50px);
+    max-width: 250px;
+    background-color: var(--color1);
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 30px;
+    list-style: none;
+}
+
+.sidenav li a{
+    text-decoration: none;
+    color: var(--color5);
+    height: 45px;
+    width: 100px;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid var(--color5);
+}
+
+.mainContentLeft .username{
+    color: var(--color5);
+    background-color: var(--color1);
+    font-size: 18px;
+    width: 100%;
+    height: 50px;
+    border-top: 2px solid var(--color5)
+}
+
+.mainContentLeft .username button{
+    width: 30px;
+    margin-left: 10px;
+    padding:5px;
+}
+
+.mainContentRight{
+    width: 100%;
+    height: 100%;
+    /* background-color: blueviolet; */
+}
+
+
