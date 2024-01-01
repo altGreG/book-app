@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -31,22 +32,21 @@ public class ScraperController {
         Book scrapedBook = accessScraper.getFromLubimyCzytac(bookUrl);
         if(scrapedBook == null){
             Book book = new Book();
-            book.setTitle("Ostatnie życzenie ");
-            book.setAuthor("Andrzej Sapkowski");
-            book.setPublisher("SuperNowa");
-            book.setReleaseDate("2014-09-25");
-            book.setSeries("Wiedźmin Geralt z Rivii (tom 1)");
-            book.setISBN("9788375780635");
-            book.setCategory("Fantasy");
-            book.setCoverUrl("https://s.lubimyczytac.pl/upload/books/240000/240310/1114358-352x500.jpg");
+
+            book.setReleaseDate("00/00/0000");
+
             model.addAttribute("book", book);
+            logger.info("Returned unable to scrape template to user");
+            return "add-book-not-scraped";
         }else{
             model.addAttribute("book", scrapedBook);
+            logger.info("Returned scraped data of the book to client");
+            return "add-book-scraped";
         }
 
 
-        logger.info("Returned scraped data of the book");
 
-        return "add-book-scraped";
+
+
     }
 }
