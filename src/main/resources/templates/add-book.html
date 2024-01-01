@@ -52,34 +52,32 @@
                 
                 <div class="formContainer">
                     <div class="formHeader flexbox-center">
-                        <h1>Add new book to your library</h1>        
+                        <h1>Add new book to Database</h1>
                     </div>
-                    <form action="" method="get" class="formInputs flexbox-center">
-                        <input type="url" name="scrapUrl" id="scrapUrl" required maxlength="59" placeholder="Url to site...">
-                        <input type="button" value="Get Data">
+                    <form action="#" th:action="@{/scraper/getBook}" method="get" class="formInputs flexbox-center">
+                        <input type="url" name="bookUrl" id="bookUrl" required maxlength="59" placeholder="Url to site...">
+                        <input type="submit" value="Get Data">
                     </form>
 
                     <form action="" method="post" class="formInputs flexbox-center">
+
+                        <input type="text" name="title" id="title" required maxlength="240" placeholder="Title" >
+
+                        <input type="text" name="author" id="author" required maxlength="120" placeholder="Author" >
+
+                        <input type="text" name="publisher" id="publisher" required maxlength="120" placeholder="Publisher" >
                         
-
-                        <input type="text" name="title" id="title" required maxlength="240" placeholder="Title" value="">
-
-                        <input type="text" name="author" id="author" required maxlength="120" placeholder="Author" value="">
-
-                        <input type="text" name="Publisher" id="Publisher" required maxlength="120" placeholder="Publisher" value="">
-                        
-                        <input type="date" name="Release Date" id="Release Date" required maxlength="59" placeholder="Release Date" value="">
+                        <input type="date" name="releaseDate" id="releaseDate" required maxlength="59" placeholder="Release Date" >
     
-                        <input type="text" name="Series" id="Series" required maxlength="240" placeholder="Series" value="">
+                        <input type="text" name="series" id="series" required maxlength="240" placeholder="Series" >
                         
-                        <input type="text" name="ISBN" id="ISBN" required maxlength="20" placeholder="ISBN" value="">
+                        <input type="text" name="isbn" id="isbn" required maxlength="20" placeholder="ISBN" >
 
-                        <input type="text" name="Category" id="Category" required maxlength="240" placeholder="Category" value="">
+                        <input type="text" name="category" id="category" required maxlength="240" placeholder="Category" >
 
-                        <input type="text" name="coverUrl" id="coverUrl" required maxlength="320" placeholder="coverUrl" value="">
+                        <input type="text" name="coverUrl" id="coverUrl" required maxlength="320" placeholder="coverUrl" >
             
-            
-                        <input type="button" value="Add Book">
+                        <input type="submit" value="Add Book">
                     </form>
                 </div>
 
