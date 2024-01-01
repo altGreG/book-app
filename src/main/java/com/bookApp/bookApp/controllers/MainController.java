@@ -12,9 +12,4 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping(path = "/subhome")
-    public String subhome() {
-
-        return "subpage";
-    }
 }

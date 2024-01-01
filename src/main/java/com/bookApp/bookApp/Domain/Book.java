@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 //@AllArgsConstructor
 //@NoArgsConstructor
 //@Builder
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
     @JsonProperty("id")
@@ -27,7 +27,7 @@ public class Book {
 
     private String series;
 
-    private String isbn;
+    public String isbn;
 
     private String category;
 
