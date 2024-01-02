@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -32,6 +33,11 @@ public class LoginAndSignUpController {
         this.userService = userService;
     }
 
+    @GetMapping(path = "/login-page")
+    public String loginPage(){
+
+        return "login";
+    }
 
     @PostMapping(path = "/login")     // TODO: Change path, refactor function
     public ResponseEntity<Object> loginUserToApp(@RequestParam(name="username", defaultValue="null") String username,
