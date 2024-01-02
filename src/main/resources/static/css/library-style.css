@@ -1,4 +1,8 @@
 
+body{
+    background-color: var(--color1);
+}
+
 .mainContentRight book{
     background-color: black;
     color: white;    

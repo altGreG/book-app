@@ -109,7 +109,7 @@ public class UserDaoImpl implements UserDao {
         try{
             jdbcTemplate.update("INSERT INTO userbook (user_id, book_id) VALUES (?, ?)",
                     userID, bookID);
-            logger.info("Book with id = " + bookID + " has been added to user library");
+            logger.info("Book with id = " + bookID + " has been added to user's library");
         }catch (Exception er){
             logger.warn("Failed to add book into user's library");
             logger.error(er);

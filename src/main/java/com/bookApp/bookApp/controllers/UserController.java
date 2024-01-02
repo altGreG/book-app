@@ -7,17 +7,22 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 
-//@RestController
 @Controller
-//@RequestMapping("/users")
 public class UserController {
 
     protected static final Logger logger = LogManager.getLogger();
@@ -36,72 +41,72 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/users/library/{id}")
-    public List<Book> listUsersLibrary(@PathVariable("id") Long userID){
-        logger.info("Received 'Show Library' HTTP Get Request from user with id = " + userID);
-        List<Book> userBooks = userService.findAllUsersBooks(userID);
-        logger.info("Sent back HTTP Respond with all users books info");
-        return userBooks;
-    }
-
-    @GetMapping(path = "/users/profile/{username}")
-    public ResponseEntity<User> getUserInfo(@PathVariable("username") String username){
+    @GetMapping(path = "/users/profile/")
+    public String getUserInfo(@CookieValue(value = "username", defaultValue = "0") String username,
+                              Model model){
         logger.info("Received 'Show Profile' HTTP Get Request from user with username = " + username);
         User userInfo = userService.showUserInfo(username);
+        model.addAttribute("user", userInfo);
         logger.info("Sent back HTTP Respond with all users info");
-        return new ResponseEntity<>(userInfo, HttpStatus.NOT_FOUND);
+        return "login";     // TODO: Change template to valid one
     }
 
-    @GetMapping(path = "/users/login/{username}/{password}")     // TODO: Change path, refactor function
-    public String loginUserToApp(@PathVariable("username") String username,
-                            @PathVariable("password") String password,
-                            HttpServletResponse response){
+    @GetMapping(path = "/users/library")
+    public String showUsersLibrary(@CookieValue(value = "id", defaultValue = "0") String userID,
+                                   @CookieValue(value = "username", defaultValue = "empty") String username,
+                                   Model model){
 
-        logger.info("Received request to login user with username: " + username);
-
-        boolean goodCredentials = userService.checkCredentials(username, password);
-
-        if(goodCredentials){
-            User userData = userService.showUserInfo(username);
-
-            Cookie usernameCookie = new Cookie("username", username);
-            response.addCookie(usernameCookie);
-            Cookie emailCookie = new Cookie("email", userData.getEmail());
-            response.addCookie(emailCookie);
-            Cookie idCookie = new Cookie("id", userData.getID().toString());
-            response.addCookie(idCookie);
-
-            logger.info("Sent back user cookies with:\n"+
-                    "     -username: " + userData.getUsername() +
-                    "\n     -email: "+ userData.getEmail() +
-                    "\n     - id: " + userData.getID() +
-                    "\nUser was granted with acces to app");
-            return "subpage";
+        if(!Objects.equals(userID, "0") && !Objects.equals(username, "empty")){
+            Long userID2 = Long.parseLong(userID);
+            System.out.println("Cookies");
+            logger.info("Received 'Show Library' HTTP Get Request from user with id = " + userID2);
+            List<Book> userBooks = userService.findAllUsersBooks(userID2);
+            model.addAttribute("books", userBooks);
+            model.addAttribute("username", username);
+            logger.info("Sent back HTTP Respond with all users books info");
+            return "library";
         }else{
-            logger.info("User's access to app was denied");
+            System.out.println("No cookies");
             return "login";
         }
     }
 
-//    Testowe API
+    @GetMapping(path = "/users/addToLibrary")
+    public ResponseEntity<Object> addToUsersLibrary(@CookieValue(value = "id", defaultValue = "0") String userID,
+                                          @CookieValue(value = "bookid", defaultValue = "0") String bookID) throws IOException, URISyntaxException {
+        logger.info("Get request to add book with id: " + bookID + " to library of user with id: " + userID);
+        try {
+            if(Objects.equals(bookID, "0")){
+                throw new Exception("Cannot read cookies with book id!");
+            }
+            userService.addToUserLibrary(Long.parseLong(userID), Long.parseLong(bookID));
 
-    @GetMapping(path = "/users/library")
-    public String showUsersLibrary(Model model){
+            URI library = new URI("http://localhost:8080/users/library");
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(library);
+            return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
-        Book book = new Book();
-        book.setTitle("Ostatnie życzenie ");
-        book.setAuthor("Andrzej Sapkowski");
-        book.setPublisher("SuperNowa");
-        book.setReleaseDate("2014-09-25");
-        book.setSeries("Wiedźmin Geralt z Rivii (tom 1)");
-        book.setISBN("9788375780635");
-        book.setCategory("Fantasy");
-        book.setCoverUrl("https://s.lubimyczytac.pl/upload/books/240000/240310/1114358-352x500.jpg");
+//            return "library";   // TODO: Do redirection to /users/library
+        }catch (Exception er){
+            logger.warn(er);
+            if(Objects.equals(userID, "0")){
+                logger.warn("User need to login to app again! No cookies with user id!");
 
-        List<Book> listOfBooks = List.of(book, book, book, book, book, book);
+                URI login = new URI("http://localhost:8080/");
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.setLocation(login);
+                return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
-        model.addAttribute("books", listOfBooks);
-        System.out.println(book);
-        return "library";
+//                return "login";
+            }else{
+
+                URI library = new URI("http://localhost:8080/users/library");
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.setLocation(library);
+                return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+
+//                return "library";   // TODO: Do redirection to /users/library, give back info to user
+            }
+        }
     }
 }

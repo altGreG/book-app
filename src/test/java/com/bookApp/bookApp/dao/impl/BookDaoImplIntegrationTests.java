@@ -29,7 +29,7 @@ public class BookDaoImplIntegrationTests {
         book.setTitle("Kuba w Dżungli!");
 		book.setAuthor("Kuba Donosik");
 		book.setPublisher("Wydawnictwo Mag");
-        book.setISBN("12344534573894");
+        book.setIsbn("12344534573894");
 
 //        underTest.create(book);
 

@@ -19,7 +19,7 @@
 <div class="container flexbox-center">
     <div class="header flexbox-center">
             <span class="logo flexbox-center">
-                <img src="../static/img/logo.png" alt="logo">
+                <img src="/img/logo.png" alt="logo">
                 <h1>
                     <a href="">BookApp</a>
                 </h1>
@@ -44,7 +44,7 @@
                     <a th:href="@{/books/addBook}">Add Book</a>
                 </li>
             </ul>
-            <span class="username flexbox-center">
+            <span class="username flexbox-center" th:text="${username}">
                     Username
                 </span>
         </div>
@@ -59,7 +59,7 @@
                     <input style="background-color: var(--color9);" type="submit" value="Wrong url" disabled>
                 </form>
 
-                <form action="" method="post" class="formInputs flexbox-center">
+                <form action="#" th:action="@{/books/addToDatabase}" method="post" class="formInputs flexbox-center">
 
 
                     <input type="text" name="title" id="title" required maxlength="240" placeholder="Title" th:value="${book.title}">

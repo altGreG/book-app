@@ -1,11 +1,7 @@
 package com.bookApp.bookApp.Domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 //@AllArgsConstructor
@@ -14,7 +10,6 @@ import lombok.NoArgsConstructor;
 //@JsonIgnoreProperties(ignoreUnknown = true)
 public class Book {
 
-    @JsonProperty("id")
     private Long bookID;
 
     private String title;
@@ -81,11 +76,11 @@ public class Book {
         this.series = newSeries;
     }
 
-    public String getISBN() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setISBN(String newISBN) {
+    public void setIsbn(String newISBN) {
         this.isbn = newISBN;
     }
 

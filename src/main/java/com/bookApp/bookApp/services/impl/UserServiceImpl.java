@@ -49,18 +49,15 @@ public class UserServiceImpl implements UserService {
     public User showUserInfo(String username) {
         try{
             User retrievedUser = userDB.findOne(username).get();
-            retrievedUser.setPassword("#####Tu#Nie#Patrzymy####");
+            retrievedUser.setPassword("IDK, Who Konws?");
             return retrievedUser;
         }catch (Exception er){
             return new User();  // logging implemented in UserDaoImpl
         }
     }
 
-//    WebService
-
-
     @Override
-    public boolean checkCredentials(String username, String password) {
-        return userDB.checkCredentials(username, password);
+    public void addToUserLibrary(Long userID, Long bookID) {
+        userDB.addBookToLibrary(userID, bookID);
     }
 }

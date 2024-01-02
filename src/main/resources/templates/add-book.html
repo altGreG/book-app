@@ -19,7 +19,7 @@
     <div class="container flexbox-center">
         <div class="header flexbox-center">
             <span class="logo flexbox-center">
-                <img src="../static/img/logo.png" alt="logo">
+                <img src="/img/logo.png" alt="logo">
                 <h1>
                     <a href="">BookApp</a>
                 </h1>
@@ -44,7 +44,7 @@
                         <a th:href="@{/books/addBook}">Add Book</a>
                     </li>
                 </ul>
-                <span class="username flexbox-center">
+                <span class="username flexbox-center" th:text="${username}">
                     Username
                 </span>
             </div>
@@ -52,14 +52,13 @@
                 
                 <div class="formContainer">
                     <div class="formHeader flexbox-center">
-                        <h1>Add new book to Database</h1>
+                        <h1 th:style="${error_css}" th:text="${error_message}?: 'Add new book to Database'"></h1>
                     </div>
                     <form action="#" th:action="@{/scraper/getBook}" method="get" class="formInputs flexbox-center">
                         <input type="url" name="bookUrl" id="bookUrl" required maxlength="59" placeholder="Url to site...">
                         <input type="submit" value="Get Data">
                     </form>
-
-                    <form action="" method="post" class="formInputs flexbox-center">
+                    <form action="#" th:action="@{/books/addToDatabase}" method="post" class="formInputs flexbox-center">
 
                         <input type="text" name="title" id="title" required maxlength="240" placeholder="Title" >
 

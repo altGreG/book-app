@@ -25,7 +25,11 @@ public class ScraperController {
     }
 
     @GetMapping(path="/getBook")
-    public String getBook(@RequestParam(name="bookUrl", defaultValue="not_provided") String bookUrl, Model model){
+    public String getBook(@RequestParam(name="bookUrl", defaultValue="not_provided") String bookUrl,
+                          @CookieValue(value = "username", defaultValue = "Unknown") String username,
+                          Model model){
+
+        model.addAttribute("username", username);
 
         logger.info("Get request to scrap data from: " + "\n    - "+ bookUrl);
 

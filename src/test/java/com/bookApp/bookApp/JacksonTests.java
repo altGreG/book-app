@@ -17,7 +17,7 @@ public class JacksonTests{
         Book book = new Book();
         book.setTitle("Wiedźmin Tom.1");
         book.setAuthor("Andrzej Sapkowski");
-        book.setISBN("9788375780635");
+        book.setIsbn("9788375780635");
         book.setPublisher("SuperNowa");
         book.setCategory("Fantastyka");
 
@@ -37,7 +37,7 @@ public class JacksonTests{
         Book book = new Book();
         book.setTitle("Wiedźmin Tom.1");
         book.setAuthor("Andrzej Sapkowski");
-        book.setISBN("9788375780635");
+        book.setIsbn("9788375780635");
         book.setPublisher("SuperNowa");
         book.setCategory("Fantastyka");
 
