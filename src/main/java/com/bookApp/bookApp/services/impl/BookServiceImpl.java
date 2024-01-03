@@ -29,4 +29,14 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    @Override
+    public Book findOneBookService(String isbn) {
+            Optional <Book> isBook = bookDB.findOne(isbn);
+            if(isBook.isEmpty()){
+                return new Book();
+            }else {
+                return isBook.get();
+            }
+
+    }
 }

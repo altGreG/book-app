@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Objects;
 
 @Controller
 public class LoginAndSignUpController {
@@ -34,7 +36,15 @@ public class LoginAndSignUpController {
     }
 
     @GetMapping(path = "/login-page")
-    public String loginPage(){
+    public String loginPage(@CookieValue(value = "loginError", defaultValue = "no_error") String isLoginError, Model model){
+
+        if(!Objects.equals(isLoginError, "no_error")){
+            model.addAttribute("error_css", "display: block;");
+            model.addAttribute("error_message", "Wrong Credentials!");
+        }else{
+            model.addAttribute("error_css", "");
+            model.addAttribute("error_message", "");
+        }
 
         return "login";
     }
@@ -45,7 +55,9 @@ public class LoginAndSignUpController {
                                  HttpServletResponse response,
                                  Model model)throws IOException, URISyntaxException {
 
-        logger.info("Received request to login user with username: " + username);
+        logger.info(">>> LOGIN DATA AUTHENTICATION MODULE <<<");
+
+        logger.info("Received request to: Login User With Username '" + username + "' to app");
 
         boolean goodCredentials = accessToApp.checkCredentials(username, password);
 
@@ -71,17 +83,28 @@ public class LoginAndSignUpController {
             URI library = new URI("http://localhost:8080/users/library");
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(library);
+
+            logger.info("Redirecting user to: User's Library");
+
+            Cookie loginErrorCookie = new Cookie("loginError", "no_error");
+            response.addCookie(loginErrorCookie);
+
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
 //            return "library";   // TODO: Change returning template to redirection
         }else{
-            model.addAttribute("error_css", "display: block;");
-            model.addAttribute("error_message", "Wrong Credentials!");
+
+            Cookie loginErrorCookie = new Cookie("loginError", "error");
+            response.addCookie(loginErrorCookie);
+
             logger.info("User's access to app was denied");
 
             URI login = new URI("http://localhost:8080/");
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(login);
+
+            logger.info("Redirecting user to: Login Page");
+
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
 //            return "login";

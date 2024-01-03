@@ -105,7 +105,7 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void addBookToLibrary(Long userID, Long bookID) {
+    public void addBookToLibrary(Long userID, Long bookID) throws Exception {
         try{
             jdbcTemplate.update("INSERT INTO userbook (user_id, book_id) VALUES (?, ?)",
                     userID, bookID);
@@ -113,6 +113,7 @@ public class UserDaoImpl implements UserDao {
         }catch (Exception er){
             logger.warn("Failed to add book into user's library");
             logger.error(er);
+            throw new Exception("Book with id: " + bookID + " is already in user library!");
         }
     }
 

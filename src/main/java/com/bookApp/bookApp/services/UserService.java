@@ -13,7 +13,7 @@ public interface UserService {
 
     User showUserInfo(String username);
 
-    void addToUserLibrary(Long userID, Long bookID);
+    void addToUserLibrary(Long userID, Long bookID) throws Exception;
 
 
 }

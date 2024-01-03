@@ -29,6 +29,8 @@ public class ScraperController {
                           @CookieValue(value = "username", defaultValue = "Unknown") String username,
                           Model model){
 
+        logger.info(">>> SCRAPING DATA FROM LUBIMYCZYRAC.PL MODULE <<<");
+
         model.addAttribute("username", username);
 
         logger.info("Get request to scrap data from: " + "\n    - "+ bookUrl);
@@ -40,11 +42,12 @@ public class ScraperController {
             book.setReleaseDate("00/00/0000");
 
             model.addAttribute("book", book);
-            logger.info("Returned unable to scrape template to user");
+            logger.info("Data can't be sraped");
+            logger.info("Sent user to: Can't Srape Data Page");
             return "add-book-not-scraped";
         }else{
             model.addAttribute("book", scrapedBook);
-            logger.info("Returned scraped data of the book to client");
+            logger.info("Sent to user: Scraped Data About Book");
             return "add-book-scraped";
         }
 

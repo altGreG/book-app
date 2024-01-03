@@ -43,9 +43,9 @@ public class BookDaoImpl implements BookDao {
                     book.getCategory() + "', '" +
                     book.getCoverUrl() + "');");
 
-            logger.info("Successfully added book with isbn = " +
-                    book.getIsbn() + " and title = " + book.getTitle() +
-                    " to database");
+            logger.info("Successfully added book with isbn: " +
+                    book.getIsbn() + " and title: '" + book.getTitle() +
+                    "' to database");
         }catch (Exception er){
             logger.warn("Failed to add book with isbn = " +
                     book.getIsbn() + " and title = " + book.getTitle() +

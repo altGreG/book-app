@@ -43,3 +43,21 @@ body{
     font-size: 22px;
     border-bottom: 1px solid var(--color5);
 }
+
+
+.errorBox {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    min-height: 20px;
+    width: 300px;
+    font-size: 18px;
+    margin-left: 40px;
+    color: var(--color9);
+    padding: 10px;
+    
+}
+
+/* .logo > .errorBox {
+    display: flex;
+} */

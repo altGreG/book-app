@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addToUserLibrary(Long userID, Long bookID) {
+    public void addToUserLibrary(Long userID, Long bookID) throws Exception {
         userDB.addBookToLibrary(userID, bookID);
     }
 }
