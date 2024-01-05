@@ -1,13 +1,17 @@
 package com.bookApp.bookApp.services.impl;
 
 import com.bookApp.bookApp.Domain.Book;
+import com.bookApp.bookApp.Domain.ScraperObjects.LubimyCzytacListItem;
 import com.bookApp.bookApp.services.ScraperService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -26,7 +30,8 @@ public class ScraperServiceImpl implements ScraperService {
             }
 
             Book scrapedBook = new Book();
-            Document site = Jsoup.connect(bookUrl).get();
+
+            Document site = Jsoup.connect(bookUrl).timeout(10 * 1000).get();
 
             // title
             Elements value = site.select(".book__title");
@@ -110,6 +115,62 @@ public class ScraperServiceImpl implements ScraperService {
             logger.info(er);
 
             return  null;
+        }
+    }
+
+    @Override
+    public List<LubimyCzytacListItem> getListOfBooksFromLubimyCzytac(String phrase) {
+
+        try{
+
+            phrase.replace(" ", "+");
+
+            String searchUrl = "https://lubimyczytac.pl/szukaj/ksiazki?phrase=" + phrase;
+            Document site = Jsoup.connect(searchUrl).timeout(10 * 1000).get();
+
+            List<LubimyCzytacListItem> ListOfItems = new ArrayList<>();
+
+            Elements values = site.select(".authorAllBooks__singleTextTitle");
+
+            // get title and url to book site
+            for (Element value : values){
+                LubimyCzytacListItem item = new LubimyCzytacListItem();
+                item.setTitle(value.text());
+                item.setBookUrl("https://lubimyczytac.pl/" + value.attr("href"));
+                ListOfItems.add(item);
+            }
+
+            //get author and add to objects in list
+            values = site.select(".authorAllBooks__singleTextAuthor a");
+
+            int i = 0;
+            for (LubimyCzytacListItem item : ListOfItems){
+                Element value = values.get(i);
+                i++;
+                item.setAuthor(value.text());
+            }
+            i = 0;
+
+            // get cover url and add to objects in list
+            values = site.select("img.img-fluid");
+
+            for (LubimyCzytacListItem item : ListOfItems){
+                Element value = values.get(i);
+                i++;
+                item.setCoverUrl(value.attr("src"));
+            }
+            i = 0;
+
+//            logger.info("Retrieved list items: ");
+//            for (LubimyCzytacListItem item : ListOfItems){
+//                System.out.println("-   " + item);
+//            }
+
+            return ListOfItems;
+
+        }catch (Exception er){
+            logger.error(er);
+            return null;
         }
     }
 }

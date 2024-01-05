@@ -57,12 +57,13 @@ public class UserController {
     public String showUsersLibrary(@CookieValue(value = "id", defaultValue = "0") String userID,
                                    @CookieValue(value = "username", defaultValue = "empty") String username,
                                    @CookieValue(value = "addToLibraryError", defaultValue = "no_error") String addToLibraryError,
+                                   @CookieValue(value = "Error", defaultValue = "no_error") String Error,
                                    Model model, HttpServletResponse response){
 
         logger.info(">>> LOADING USERS LIBRARY PAGE MODULE <<<");
 
         if(!Objects.equals(addToLibraryError, "no_error")){
-            model.addAttribute("error_message", addToLibraryError);
+            model.addAttribute("error_message", addToLibraryError.replace("_", " "));
 
             if(Objects.equals(addToLibraryError, "Successfully_Added_Book_To_Library")){
                 model.addAttribute("error_css", "display: flex; color: var(--color6);");
@@ -73,6 +74,17 @@ public class UserController {
             Cookie addLibraryErrorCookie = new Cookie("addToLibraryError", "no_error");
             addLibraryErrorCookie.setPath("/");
             response.addCookie(addLibraryErrorCookie);
+
+        }
+
+        if(!Objects.equals(Error, "no_error")){
+            model.addAttribute("error_message", Error.replace("_", " "));
+
+            model.addAttribute("error_css", "display: flex;");
+
+            Cookie ErrorCookie = new Cookie("Error", "no_error");
+            ErrorCookie.setPath("/");
+            response.addCookie(ErrorCookie);
 
         }
 

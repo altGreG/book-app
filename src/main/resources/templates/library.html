@@ -24,8 +24,8 @@
                 </h1>
                 <span th:text="${error_message}" th:style="${error_css}" class="errorBox">TO wiadomość z errorem</span>
             </span>
-            <form action="" method="get" class="flexbox-center">
-                <input type="search" name="searchBook" id="searchBook" placeholder="Search for book">
+            <form action="#" th:action="@{/scraper/getListOfBooks}" method="get" class="flexbox-center">
+                <input type="search" name="phrase" id="phrase" placeholder="Search for book">
                 <button type="submit">Search</button>
             </form>
         </div>

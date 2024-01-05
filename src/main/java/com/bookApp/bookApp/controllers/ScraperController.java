@@ -1,14 +1,22 @@
 package com.bookApp.bookApp.controllers;
 
 import com.bookApp.bookApp.Domain.Book;
+import com.bookApp.bookApp.Domain.ScraperObjects.LubimyCzytacListItem;
 import com.bookApp.bookApp.services.impl.ScraperServiceImpl;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 
@@ -51,9 +59,54 @@ public class ScraperController {
             return "add-book-scraped";
         }
 
+    }
 
+    @GetMapping(path="/getListOfBooks")
+    public ResponseEntity<Object> getListOfBooks(@RequestParam(name="phrase", defaultValue="not_provided") String phrase,
+                                                 Model model, HttpServletResponse response) throws URISyntaxException {
+        // TODO: Refactor code
+        logger.info(">>> SCRAPING DATA FROM LUBIMYCZYRAC.PL MODULE  (List of Books) <<<");
+        logger.info("Get request to retrieve list of books with name similar to: " + "\n    - "+ phrase);
 
+        List<LubimyCzytacListItem> ListOfItems = accessScraper.getListOfBooksFromLubimyCzytac(phrase);
 
+        if(ListOfItems.isEmpty()){
 
+            logger.warn("List of books, can't be sraped");
+
+            Cookie ErrorCookie = new Cookie("Error", "Error:_No_Books_With_Name_Similar_To_Provided");
+            ErrorCookie.setPath("/");
+            response.addCookie(ErrorCookie);
+            logger.info("Sent to user Cookie with error message: \n" +
+                    "   -" + "Error: No Books With Name Similar To Provided");
+
+            logger.info("Redirect user to: Library Page");
+            URI library = new URI("http://localhost:8080/users/library");
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(library);
+
+            return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+        }else{
+            logger.info("Successfully retrieved list of books");
+            URI library = new URI("http://localhost:8080/scraper/search-book-page/" + phrase.replace(" ", "+"));
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setLocation(library);
+
+            return new ResponseEntity<>(httpHeaders , HttpStatus.SEE_OTHER);
+        }
+    }
+
+    @GetMapping(path="/search-book-page/{phrase}")
+    public String getSearchListPage(@CookieValue(value = "username", defaultValue = "Unknown") String username,
+                                    @PathVariable("phrase") String phrase,
+                                    Model model){
+        model.addAttribute("username", username);
+
+        List<LubimyCzytacListItem> ListOfItems = accessScraper.getListOfBooksFromLubimyCzytac(phrase.replace("_", "+"));
+        model.addAttribute("listItems", ListOfItems);
+
+        logger.info("Sent to user: Scraped List Of Books");
+        logger.info("Sent user to: Scraped List Of Books Page");
+        return "search-book";
     }
 }

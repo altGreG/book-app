@@ -20,7 +20,7 @@ public class Book {
 
     private String releaseDate;
 
-    private String series;
+    private String series = "Unknown";
 
     public String isbn;
 
