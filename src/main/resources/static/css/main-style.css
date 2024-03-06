@@ -128,5 +128,6 @@ button{
     flex-wrap: wrap;
     overflow-y: scroll;
     overflow-x: hidden;
-    /* background-color: blueviolet; */
+     background-color:var(--color1);
+    align-items: flex-start;
 }

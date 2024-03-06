@@ -84,7 +84,7 @@ public class LoginAndSignUpController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(library);
 
-            logger.info("Redirecting user to: User's Library");
+            logger.info("Redirecting user to: User's Library \n\n");
 
             Cookie loginErrorCookie = new Cookie("loginError", "no_error");
             response.addCookie(loginErrorCookie);
@@ -103,7 +103,7 @@ public class LoginAndSignUpController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(login);
 
-            logger.info("Redirecting user to: Login Page");
+            logger.info("Redirecting user to: Login Page \n\n");
 
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 

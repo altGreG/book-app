@@ -50,21 +50,25 @@
 
             <div class="listItem flexbox-center" th:each="listItem : ${listItems}">
                 <!-- <img th:src="@{${listItem.coverUrl}}" alt="img" class="book-img"> -->
-                <div  style="width: 100%; display: flex; align-items: center; justify-content: space-between; " class="flexbox-center">
-                    <img th:src="@{${listItem.coverUrl}}" alt="img" class="book-img">
-                    <div  class="listItem-info flexbox-center">
-                        <span class="title" th:text="${listItem.title}">Ostatnie życzenie</span>
-<!--                        <span>-->
-<!--                            Author: <span class="author" th:text="${listItem.author}">Andrzej Sapkowski</span>-->
-<!--                        </span>-->
-                        <span>
-                            Url to book: <a th:href="@{${listItem.bookUrl}}" class="bookUrl" th:text="${listItem.bookUrl}">Url</a>
-                        </span>
-                    </div>
-                </div>
-                <span class="decisionBox flexbox-center">
-                    <a href="">Add to library</a>
-                </span>
+                <form style="width: 100%;" th:action="@{http://localhost:8080/books/addBook}"  class="addBookForm flexbox-center" method="get">
+
+                   <div  style="width: 100%; display: flex; align-items: center; justify-content: space-between; " class="flexbox-center">
+                        <img th:src="@{${listItem.coverUrl}}" alt="img" class="book-img">
+                        <div  class="listItem-info flexbox-center">
+                           <span class="title" th:text="${listItem.title}">Ostatnie życzenie</span>
+<!--                           <span>-->
+<!--                               Author: <span class="author" th:text="${listItem.author}">Andrzej Sapkowski</span>-->
+<!--                           </span>-->
+
+                               <span>Url to book: </span>
+                               <input type="url" name="bookUrl" class="bookUrl" th:value="${listItem.bookUrl}">
+
+                       </div>
+                   </div>
+                   <span class="decisionBox flexbox-center">
+                       <input type="submit" value="Add to library">
+                   </span>
+                </form>
             </div>
             
         </div>

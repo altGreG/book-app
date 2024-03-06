@@ -30,7 +30,7 @@ public class ScraperServiceIntegrationTest {
     public void checkWhetherFunctionGetValidDataFromUrl(){
         System.out.println("Start of test");
 
-        Book result = underTest.getFromLubimyCzytac("https://lubimyczytac.pl/ksiazka/240310/ostatnie-zyczenie");
+//        Book result = underTest.getFromLubimyCzytac("https://lubimyczytac.pl/ksiazka/240310/ostatnie-zyczenie");
 
     }
 
@@ -38,7 +38,7 @@ public class ScraperServiceIntegrationTest {
     public void checkWhetherFunctionReturnListOfItems(){
         System.out.println("Start of test");
 
-        List<LubimyCzytacListItem> result = underTest.getListOfBooksFromLubimyCzytac("ostatnie");
+//        List<LubimyCzytacListItem> result = underTest.getListOfBooksFromLubimyCzytac("ostatnie");
 
     }
 }

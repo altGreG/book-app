@@ -29,15 +29,17 @@ public class BookController {
     @GetMapping(path = "/books/addBook")
     public String addBookTemplate(@CookieValue(value = "id", defaultValue = "0") String userID,
                                   @CookieValue(value = "username", defaultValue = "Unknown") String username,
+                                  @RequestParam(name = "bookUrl", required = false) String bookUrl,
                                   Model model){
         logger.info(">>> RETURN ADD BOOK PAGE MODULE <<<");
         if(Objects.equals(userID, "0")){
             logger.warn("User need to login to app again! No cookies with user id!");
-            logger.info("Sent user to: Login Page");
+            logger.info("Sent user to: Login Page \n\n");
             return "login";
         }else{
             model.addAttribute("username", username);
-            logger.info("Sent user to: Add Book Page");
+            model.addAttribute("bookUrl", bookUrl);
+            logger.info("Sent user to: Add Book Page\n\n");
             return "add-book";
         }
     }
@@ -51,7 +53,7 @@ public class BookController {
 
         if(Objects.equals(userID, "0")){
             logger.warn("User need to login to app again! No cookies with user id!");
-            logger.info("Sent user to: Login Page");
+            logger.info("Sent user to: Login Page \n\n");
             return "login";
         }
 
@@ -69,7 +71,7 @@ public class BookController {
 
             logger.info("Sent back user cookies with:\n" +
                     "     - bookid: " + savedBook.getBookID().toString());
-            logger.info("Sent user to: Add Book To Library Page");
+            logger.info("Sent user to: Add Book To Library Page \n\n");
 
             return "add-book-to-library";
         }catch(Exception er){
@@ -96,12 +98,12 @@ public class BookController {
                     logger.info("Sent back user cookies with:\n" +
                             "     - bookid: " + savedBook.getBookID().toString());
 
-                    logger.info("Sent user to: Add Book To Library Page With Error Message");
+                    logger.info("Sent user to: Add Book To Library Page With Error Message \n\n");
                     return "add-book-to-library";
                 }
             }
 
-            logger.info("Sent user to: Add Book Page With Error Message");
+            logger.info("Sent user to: Add Book Page With Error Message \n\n");
 
             return "add-book";
         }

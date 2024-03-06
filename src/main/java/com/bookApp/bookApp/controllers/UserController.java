@@ -37,7 +37,7 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
         logger.info("Received 'Add User' HTTP POST request");
         User savedUser =  userService.createUser(user);
-        logger.info("Sent back HTTP Respond with saved user info to client");
+        logger.info("Sent back HTTP Respond with saved user info to client \n\n");
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
@@ -49,7 +49,7 @@ public class UserController {
         logger.info("Received 'Show Profile' request from user with username: '" + username + "' ");
         User userInfo = userService.showUserInfo(username);
         model.addAttribute("user", userInfo);
-        logger.info("Sent to user: All User Info");
+        logger.info("Sent to user: All User Info \n\n");
         return "login";     // TODO: Change template to valid one
     }
 
@@ -96,11 +96,11 @@ public class UserController {
             model.addAttribute("books", userBooks);
             model.addAttribute("username", username);
             logger.info("Sent to user:  Data With Info About All User Books");
-            logger.info("Sent user to: Library Page");
+            logger.info("Sent user to: Library Page \n\n");
             return "library";
         }else{
             logger.warn("User isn't logged in. Cookies didn't exist!");
-            logger.info("Sent user to: Login Page");
+            logger.info("Sent user to: Login Page \n\n");
             return "login";
         }
     }
@@ -130,7 +130,7 @@ public class UserController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(library);
 
-            logger.info("Redirect user to: Library Page");
+            logger.info("Redirect user to: Library Page \n\n");
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
 //            return "library";   // TODO: Do redirection to /users/library
@@ -142,7 +142,7 @@ public class UserController {
                 URI login = new URI("http://localhost:8080/");
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.setLocation(login);
-                logger.info("Redirect user to: Login Page");
+                logger.info("Redirect user to: Login Page \n\n");
                 return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
 //                return "login";
@@ -170,7 +170,7 @@ public class UserController {
                 URI library = new URI("http://localhost:8080/users/library");
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.setLocation(library);
-                logger.warn("Book wasn't add to library. Redirect user to: Library Page With Error Message");
+                logger.warn("Book wasn't add to library. Redirect user to: Library Page With Error Message \n\n");
                 return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
 
 //                return "library";   // TODO: Do redirection to /users/library, give back info to user

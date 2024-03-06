@@ -34,14 +34,14 @@ public class BookDaoImpl implements BookDao {
         try{
             jdbcTemplate.update("INSERT INTO book (title, author, publisher, series, release_date, isbn, category, cover_url)" +
                             " VALUES ('" +
-                    book.getTitle() + "', '" +
-                    book.getAuthor() + "', '" +
-                    book.getPublisher() + "', '" +
-                    book.getSeries() + "', '" +
-                    book.getReleaseDate() + "', '" +
-                    book.getIsbn() + "', '" +
-                    book.getCategory() + "', '" +
-                    book.getCoverUrl() + "');");
+                    book.getTitle().replace("'", "") + "', '" +
+                    book.getAuthor().replace("'", "") + "', '" +
+                    book.getPublisher().replace("'", "") + "', '" +
+                    book.getSeries().replace("'", "") + "', '" +
+                    book.getReleaseDate().replace("'", "") + "', '" +
+                    book.getIsbn().replace("'", "") + "', '" +
+                    book.getCategory().replace("'", "") + "', '" +
+                    book.getCoverUrl().replace("'", "") + "');");
 
             logger.info("Successfully added book with isbn: " +
                     book.getIsbn() + " and title: '" + book.getTitle() +

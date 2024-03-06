@@ -51,11 +51,11 @@ public class ScraperController {
 
             model.addAttribute("book", book);
             logger.info("Data can't be sraped");
-            logger.info("Sent user to: Can't Srape Data Page");
+            logger.info("Sent user to: Can't Srape Data Page \n\n");
             return "add-book-not-scraped";
         }else{
             model.addAttribute("book", scrapedBook);
-            logger.info("Sent to user: Scraped Data About Book");
+            logger.info("Sent to user: Scraped Data About Book \n\n");
             return "add-book-scraped";
         }
 
@@ -80,14 +80,14 @@ public class ScraperController {
             logger.info("Sent to user Cookie with error message: \n" +
                     "   -" + "Error: No Books With Name Similar To Provided");
 
-            logger.info("Redirect user to: Library Page");
+            logger.info("Redirect user to: Library Page \n\n");
             URI library = new URI("http://localhost:8080/users/library");
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(library);
 
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
         }else{
-            logger.info("Successfully retrieved list of books");
+            logger.info("Successfully retrieved list of books \n\n");
             URI library = new URI("http://localhost:8080/scraper/search-book-page/" + phrase.replace(" ", "+"));
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(library);
@@ -102,11 +102,13 @@ public class ScraperController {
                                     Model model){
         model.addAttribute("username", username);
 
+        logger.info(">>> RETURN SEARCH BOOK PAGE MODULE <<<");
+
         List<LubimyCzytacListItem> ListOfItems = accessScraper.getListOfBooksFromLubimyCzytac(phrase.replace("_", "+"));
         model.addAttribute("listItems", ListOfItems);
 
         logger.info("Sent to user: Scraped List Of Books");
-        logger.info("Sent user to: Scraped List Of Books Page");
+        logger.info("Sent user to: Scraped List Of Books Page \n\n");
         return "search-book";
     }
 }

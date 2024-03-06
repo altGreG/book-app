@@ -29,7 +29,7 @@ public class MainController {
             httpHeaders.setLocation(login);
 
             logger.warn("Sent to user: Info about wrong login data");
-            logger.info("Redirecting user to: Login Page");
+            logger.info("Redirecting user to: Login Page \n\n");
 
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
         }else{
@@ -38,7 +38,7 @@ public class MainController {
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setLocation(library);
 
-            logger.info("Redirecting user to: User's Library");
+            logger.info("Redirecting user to: User's Library \n\n");
 
             return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
         }

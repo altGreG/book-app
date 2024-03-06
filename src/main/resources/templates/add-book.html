@@ -55,7 +55,7 @@
                         <h1 th:style="${error_css}" th:text="${error_message}?: 'Add new book to Database'"></h1>
                     </div>
                     <form action="#" th:action="@{/scraper/getBook}" method="get" class="formInputs flexbox-center">
-                        <input type="url" name="bookUrl" id="bookUrl" required maxlength="59" placeholder="Url to site...">
+                        <input type="url" name="bookUrl" id="bookUrl" required maxlength="59" placeholder="Url to site..." th:value="${bookUrl}">
                         <input type="submit" value="Get Data">
                     </form>
                     <form action="#" th:action="@{/books/addToDatabase}" method="post" class="formInputs flexbox-center">
