@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BookApp - Library</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv=”X-UA-Compatible” content=”IE=edge”>
+
+    <link rel="stylesheet" href="../static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/main-style.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/add-book-to-library-style.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/library-style.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+    <link rel="stylesheet" href="/css/main-style.css" type="text/css">
+    <link rel="stylesheet" href="/css/add-book-to-library-style.css" type="text/css">
+    <link rel="stylesheet" href="/css/library-style.css" type="text/css">
+
+</head>
+<body>
+    <div class="container flexbox-center">
+        <div class="header flexbox-center">
+            <span class="logo flexbox-center">
+                <img src="/img/logo.png" alt="logo">
+                <h1>
+                    <a href="">BookApp</a>
+                </h1>
+            </span>
+            <form action="#" th:action="@{/scraper/getListOfBooks}" method="get" class="flexbox-center">
+                <input type="search" name="phrase" id="phrase" placeholder="Search for book">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+        <div class="mainContent flexbox-center">
+            <div class="mainContentLeft">
+                <ul class="sidenav flexbox-center">
+                    <li>
+                        <a th:href="@{/users/library}">Library</a>
+                    </li>
+                    <!-- <li>
+                        <a href="">Profile</a>
+                    </li> -->
+                </ul>
+                <ul class="sidenav options flexbox-center">
+                    <li>
+                        <a th:href="@{/books/addBook}">Add Book</a>
+                    </li>
+                </ul>
+                <span class="username flexbox-center" th:text="${username}">
+                    Username
+                </span>
+            </div>
+            <div class="mainContentRight flexbox-center">
+                
+
+                <div class="savedBook flexbox-center">
+                    <span>
+                        <h1 th:style="${errorHeader_css}">Successfully added book to database!</h1>
+                        <h1>Do you want to add this book to your library?</h1>
+                    </span>
+                    
+
+                    <div class="bookContainer flexbox-center">
+                        <img th:src="@{${savedBook.coverUrl}}" alt="book_cover">
+                        <div class="book-info flexbox-center">
+                            <span class="title" th:text="${book.title}">Ostatnie życzenie</span>
+                            <span>
+                                Author: <span class="author" th:text="${book.author}">Andrzej Sapkowski</span>
+                            </span>
+                            <span>
+                                Publisher: <span class="publisher" th:text="${book.publisher}">SuperNowa</span>
+                            </span>
+                            <span>
+                                Release date: <span class="release" th:text="${book.releaseDate}">2014-09-25</span>
+                            </span>
+                            <span>
+                                Series: <span class="series" th:text="${book.series}">Wiedźmin Geralt z Rivii (tom 1)</span>
+                            </span>
+                            <span>
+                                ISBN: <span class="isbn" th:text="${book.isbn}">9788375780635</span>
+                            </span>
+                            <span>
+                                Kategoria: 
+                                <span class="tags" th:text="${book.category}">
+                                    <span >Fantasy</span>
+                                </span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <span class="decisionBox flexbox-center">
+                        <a th:href="@{/users/addToLibrary}">Add to library</a>
+                        <a th:href="@{/books/addBook}">Back</a>
+                    </span>
+                    <div class="errorBox flexbox-center" th:style="${errorBox_css}">
+                        <h1 th:style="${error_css}" th:text="${error_message}"></h1>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>

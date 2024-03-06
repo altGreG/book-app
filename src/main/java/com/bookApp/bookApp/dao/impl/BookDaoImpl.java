@@ -23,20 +23,32 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void create(Book book) {
-        try{
-            jdbcTemplate.update("INSERT INTO book (title, author, publisher, isbn) VALUES (?, ?, ?, ?)",
-                    book.getTitle(),
-                    book.getAuthor(),
-                    book.getPublisher(),
-                    book.getISBN());
+    public void create(Book book) throws Exception {
 
-            logger.info("Successfully added book with isbn = " +
-                    book.getISBN() + " and title = " + book.getTitle() +
-                    " to database");
+        Optional<Book> exist = findOne(book.getIsbn());
+
+        if(!exist.isEmpty()){
+            throw new Exception("Book with isbn: " + book.getIsbn() + " already exist in database");
+        }
+
+        try{
+            jdbcTemplate.update("INSERT INTO book (title, author, publisher, series, release_date, isbn, category, cover_url)" +
+                            " VALUES ('" +
+                    book.getTitle().replace("'", "") + "', '" +
+                    book.getAuthor().replace("'", "") + "', '" +
+                    book.getPublisher().replace("'", "") + "', '" +
+                    book.getSeries().replace("'", "") + "', '" +
+                    book.getReleaseDate().replace("'", "") + "', '" +
+                    book.getIsbn().replace("'", "") + "', '" +
+                    book.getCategory().replace("'", "") + "', '" +
+                    book.getCoverUrl().replace("'", "") + "');");
+
+            logger.info("Successfully added book with isbn: " +
+                    book.getIsbn() + " and title: '" + book.getTitle() +
+                    "' to database");
         }catch (Exception er){
             logger.warn("Failed to add book with isbn = " +
-                    book.getISBN() + " and title = " + book.getTitle() +
+                    book.getIsbn() + " and title = " + book.getTitle() +
                     " to database");
             logger.error(er);
         }
@@ -96,7 +108,7 @@ public class BookDaoImpl implements BookDao {
             booktmp.setPublisher(rs.getString("publisher"));
             booktmp.setSeries(rs.getString("series"));
             booktmp.setReleaseDate(rs.getString("release_date"));
-            booktmp.setISBN(rs.getString("isbn"));
+            booktmp.setIsbn(rs.getString("isbn"));
             booktmp.setCategory(rs.getString("category"));
             booktmp.setCoverUrl(rs.getString("cover_url"));
 
@@ -115,7 +127,7 @@ public class BookDaoImpl implements BookDao {
                     "release_date= '" + book.getReleaseDate() + "', " +
                     "category = '" + book.getCategory() + "', " +
                     "cover_url = '" + book.getCoverUrl() + "' WHERE isbn = " + isbn);
-            logger.info("Book info with ISBN: " + book.getISBN() + " has been updated in database");
+            logger.info("Book info with ISBN: " + book.getIsbn() + " has been updated in database");
         }catch(Exception er){
             logger.warn(er);
         }

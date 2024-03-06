@@ -15,7 +15,7 @@ public interface UserDao {
 
     void update(Long userID, User User);
 
-    void addBookToLibrary(Long userID, Long bookID);
+    void addBookToLibrary(Long userID, Long bookID) throws Exception;
 
     void removeBookFromLibrary(Long userID, Long bookID);
 

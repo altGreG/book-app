@@ -1,0 +1,58 @@
+.mainContentRight {
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: var(--color1) !important;
+}
+
+.savedBook{
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    flex-direction: column;
+    border: 2px solid var(--color5);
+    color: var(--color5);
+    border-radius: 40px;
+    align-items: center;
+    justify-content: space-between;
+}
+.savedBook h1{
+    text-align: center;
+}
+
+.bookContainer{
+    margin-top: 40px;
+}
+
+.bookContainer img{
+    width: 150px;
+}
+
+.decisionBox {
+    margin-top: 30px;
+}
+
+.decisionBox a{
+    display: block;
+    margin-right: 20px;
+    text-decoration: none;
+    padding: 10px;
+    font-size: 22px;
+    color: var(--color10);
+    border: 2px solid var(--color10);
+}
+
+.decisionBox a:first-child {
+    color: var(--color6);
+    border: 2px solid var(--color6);
+}
+
+
+
+/* .errorBox{
+    padding: 10px;
+    height: 160px;
+    min-height: 20px;
+    margin-top: 20px;
+    display: none;
+} */
+

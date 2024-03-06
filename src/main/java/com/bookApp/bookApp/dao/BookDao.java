@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface BookDao {
 
-    void create(Book book);
+    void create(Book book) throws Exception;
 
     Optional<Book> findOne(String bookTitle);
 

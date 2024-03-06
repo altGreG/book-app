@@ -19,15 +19,15 @@
 <div class="container flexbox-center">
     <div class="header flexbox-center">
             <span class="logo flexbox-center">
-                <img src="../static/img/logo.png" alt="logo">
+                <img src="/img/logo.png" alt="logo">
                 <h1>
                     <a href="">BookApp</a>
                 </h1>
             </span>
-        <form action="" method="get" class="flexbox-center">
-            <input type="search" name="searchBook" id="searchBook" placeholder="Search for book">
-            <button type="submit">Search</button>
-        </form>
+            <form action="#" th:action="@{/scraper/getListOfBooks}" method="get" class="flexbox-center">
+                <input type="search" name="phrase" id="phrase" placeholder="Search for book">
+                <button type="submit">Search</button>
+            </form>
     </div>
     <div class="mainContent flexbox-center">
         <div class="mainContentLeft">
@@ -35,16 +35,16 @@
                 <li>
                     <a th:href="@{/users/library}">Library</a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="">Profile</a>
-                </li>
+                </li> -->
             </ul>
             <ul class="sidenav options flexbox-center">
                 <li>
                     <a th:href="@{/books/addBook}">Add Book</a>
                 </li>
             </ul>
-            <span class="username flexbox-center">
+            <span class="username flexbox-center" th:text="${username}">
                     Username
                 </span>
         </div>
@@ -59,7 +59,7 @@
                     <input style="background-color: var(--color9);" type="submit" value="Wrong url" disabled>
                 </form>
 
-                <form action="" method="post" class="formInputs flexbox-center">
+                <form action="#" th:action="@{/books/addToDatabase}" method="post" class="formInputs flexbox-center">
 
 
                     <input type="text" name="title" id="title" required maxlength="240" placeholder="Title" th:value="${book.title}">
